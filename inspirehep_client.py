@@ -298,6 +298,13 @@ def open_inspirehep_in_browser(record_id: str) -> Dict[str, Any]:
            (record_id.startswith("'") and record_id.endswith("'")):
             record_id = record_id[1:-1]
         
+        # Validate that the record_id is a number
+        if not record_id.isdigit():
+            return {
+                "error": True,
+                "message": f"Invalid record ID: '{record_id}'. The INSPIRE-HEP record ID must be a number."
+            }
+        
         # Construct the URL for the INSPIRE-HEP record page
         url = f"{INSPIREHEP_WEB_URL}/{record_id}"
         
