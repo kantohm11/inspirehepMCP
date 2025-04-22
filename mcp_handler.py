@@ -24,8 +24,8 @@ def search(
              - "a Edward.Witten.1" (papers by author Edward Witten)
              - "t boson" (papers with "boson" in the title)
              - "topcite 1000+" (papers cited at least 1000 times)
-             - "tc conference paper" (only conference papers)
              - "doi:10.1103/PhysRevLett.19.1264" (paper with a specific DOI)
+             - "refersto:recid:2901053" (papers that reference a specific record, specified by inspireHEP record identifier)
     
     - sort: Sort order for results. Options:
             - "mostrecent" (default when no query is provided)
