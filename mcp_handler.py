@@ -20,7 +20,7 @@ def search(
     Parameters:
     - query: Search query string. For literature records, a custom search syntax is used.
              Examples:
-             - "a E.Witten.1" (papers by author Edward Witten)
+             - "a Edward.Witten.1" (papers by author Edward Witten)
              - "t boson" (papers with "boson" in the title)
              - "topcite 1000+" (papers cited at least 1000 times)
              - "tc conference paper" (only conference papers)
