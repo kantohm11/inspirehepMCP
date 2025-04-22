@@ -1,5 +1,5 @@
 import json
-from inspirehep_client import search_inspirehep
+from inspirehep_client import search_inspirehep, get_bibtex
 from mcp.server.fastmcp import FastMCP
 from typing import Optional, Dict, Any
 
@@ -44,3 +44,22 @@ def search(
     # Return the results directly as a dictionary
     # FastMCP will handle the serialization
     return results
+
+@mcp.tool()
+def get_bibtex_citation(record_id: str) -> dict:
+    """
+    Fetch BibTeX citation for an InspireHEP record by its ID.
+    
+    Parameters:
+    - record_id: The InspireHEP record ID (control number)
+                Example: "451647" for a specific paper
+    
+    Returns a dictionary containing the record ID and BibTeX citation string.
+    This can be used directly in LaTeX documents or reference management software.
+    """
+    # Call the InspireHEP API through our client to get the BibTeX
+    result = get_bibtex(record_id)
+    
+    # Return the result (either the BibTeX or an error message)
+    # FastMCP will handle the serialization
+    return result

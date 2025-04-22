@@ -188,3 +188,41 @@ def _extract_preprint_info(hit: Dict[str, Any]) -> Dict[str, Any]:
         preprint_info["arxiv_url"] = f"https://arxiv.org/abs/{preprint_info['arxiv_id']}"
     
     return preprint_info
+
+def get_bibtex(record_id: str) -> Dict[str, Any]:
+    """
+    Fetch BibTeX data for a record from InspireHEP API by record ID.
+    
+    Args:
+        record_id: The InspireHEP record ID
+        
+    Returns:
+        A dictionary with the BibTeX data or an error message
+    """
+    try:
+        # Remove surrounding quotes if present
+        if (record_id.startswith('"') and record_id.endswith('"')) or \
+           (record_id.startswith("'") and record_id.endswith("'")):
+            record_id = record_id[1:-1]
+        
+        # Fetch BibTeX format for the specified record ID
+        url = f"{INSPIREHEP_API_URL}/{record_id}?format=bibtex"
+        response = requests.get(url)
+        response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
+        
+        # Parse the BibTeX response (text format)
+        bibtex_text = response.text
+        
+        # Return the BibTeX text in a structured response
+        return {
+            "record_id": record_id,
+            "bibtex": bibtex_text
+        }
+    
+    except requests.exceptions.RequestException as e:
+        # Return a structured error response
+        return {
+            "error": True,
+            "message": f"Error fetching BibTeX from InspireHEP: {str(e)}",
+            "status_code": getattr(e.response, 'status_code', None) if hasattr(e, 'response') else None
+        }
