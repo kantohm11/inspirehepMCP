@@ -1,5 +1,4 @@
 import requests
-from urllib.parse import quote
 from typing import Optional
 
 INSPIREHEP_API_URL = "https://inspirehep.net/api/literature"
@@ -11,26 +10,27 @@ def search_inspirehep(
     size: Optional[int] = None
 ):
     try:
-        # URL encode the query parameter to handle spaces and special characters
-        encoded_query = quote(query)
+        # Remove surrounding quotes if present
+        if query.startswith('"') and query.endswith('"'):
+            query = query[1:-1]
         
-        # Start building the API request URL
-        url = f"{INSPIREHEP_API_URL}?q={encoded_query}"
+        # Build parameters dictionary
+        params = {'q': query}
         
         # Add optional parameters if provided
         if sort:
-            url += f"&sort={sort}"
+            params['sort'] = sort
         
         if page:
-            url += f"&page={page}"
+            params['page'] = page
         
         if size:
             # Ensure size is within the API limit (max 1000)
             size = min(size, 1000)
-            url += f"&size={size}"
+            params['size'] = size
         
-        # Make the API request
-        response = requests.get(url)
+        # Make the API request with params - requests library handles URL encoding properly
+        response = requests.get(INSPIREHEP_API_URL, params=params)
         response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
         
         # Parse the JSON response
