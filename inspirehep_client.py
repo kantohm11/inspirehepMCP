@@ -1,5 +1,6 @@
 import requests
 from typing import Optional, Dict, List, Any
+import webbrowser
 
 INSPIREHEP_API_URL = "https://inspirehep.net/api/literature"
 
@@ -225,4 +226,57 @@ def get_bibtex(record_id: str) -> Dict[str, Any]:
             "error": True,
             "message": f"Error fetching BibTeX from InspireHEP: {str(e)}",
             "status_code": getattr(e.response, 'status_code', None) if hasattr(e, 'response') else None
+        }
+
+def open_arxiv_in_browser(url: str) -> Dict[str, Any]:
+    """
+    Opens an arXiv URL in the default web browser.
+    
+    Args:
+        url: The arXiv URL to open in the browser
+        
+    Returns:
+        A dictionary with the result of the operation
+    """
+    try:
+        # Validate that this is an arXiv URL
+        valid_arxiv_domains = ('arxiv.org', 'www.arxiv.org')
+        
+        # Check if URL starts with http:// or https://
+        if not url.startswith(('http://', 'https://')):
+            return {
+                "error": True,
+                "message": "Invalid URL format. URL must start with http:// or https://"
+            }
+        
+        # Extract domain from URL
+        from urllib.parse import urlparse
+        parsed_url = urlparse(url)
+        domain = parsed_url.netloc
+        
+        # Check if domain is an arXiv domain
+        if domain not in valid_arxiv_domains:
+            return {
+                "error": True,
+                "message": f"Invalid URL. Only arXiv URLs (arxiv.org) are allowed, got: {domain}"
+            }
+        
+        # Try to open the URL in the default browser
+        success = webbrowser.open(url)
+        
+        if success:
+            return {
+                "success": True,
+                "message": f"Successfully opened arXiv URL {url} in default browser"
+            }
+        else:
+            return {
+                "error": True,
+                "message": f"Failed to open arXiv URL {url} in browser"
+            }
+    
+    except Exception as e:
+        return {
+            "error": True,
+            "message": f"Error opening arXiv URL in browser: {str(e)}"
         }

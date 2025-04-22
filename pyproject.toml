@@ -1,7 +1,7 @@
 [project]
 name = "inspirehepmcp"
 version = "0.1.0"
-description = "Add your description here"
+description = "InspireHEP Model Context Protocol server - Search and manage high energy physics papers"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

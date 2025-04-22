@@ -1,5 +1,5 @@
 import json
-from inspirehep_client import search_inspirehep, get_bibtex
+from inspirehep_client import search_inspirehep, get_bibtex, open_arxiv_in_browser
 from mcp.server.fastmcp import FastMCP
 from typing import Optional, Dict, Any
 
@@ -62,4 +62,23 @@ def get_bibtex_citation(record_id: str) -> dict:
     
     # Return the result (either the BibTeX or an error message)
     # FastMCP will handle the serialization
+    return result
+
+@mcp.tool()
+def open_arxiv_in_browser(url: str) -> dict:
+    """
+    Opens an arXiv URL in the user's default web browser.
+    
+    Parameters:
+    - url: The arXiv URL to open. Must start with http:// or https:// and must be from arxiv.org
+          Example: "https://arxiv.org/abs/2104.08394"
+    
+    Returns a dictionary with the result of the operation.
+    This tool allows users to quickly view arXiv preprints directly in their browser.
+    Only URLs from arxiv.org domain are allowed for security reasons.
+    """
+    # Call the client function to open the arXiv URL in browser
+    result = open_arxiv_in_browser(url)
+    
+    # Return the result
     return result
