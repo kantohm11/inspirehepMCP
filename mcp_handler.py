@@ -1,7 +1,7 @@
 import json
 from inspirehep_client import search_inspirehep
 from mcp.server.fastmcp import FastMCP
-from typing import Optional
+from typing import Optional, Dict, Any
 
 # Create the MCP server instance
 mcp = FastMCP("InspireHEP")
@@ -11,7 +11,8 @@ def search(
     query: str, 
     sort: Optional[str] = None, 
     page: Optional[int] = None, 
-    size: Optional[int] = None
+    size: Optional[int] = None,
+    include_abstract: bool = False
 ) -> dict:
     """
     Search InspireHEP for articles matching the query.
@@ -33,9 +34,12 @@ def search(
     - page: Page number for pagination (default: 1)
     
     - size: Number of results per page (default: 10, max: 1000)
+    
+    - include_abstract: If True, includes the abstract text in the results.
+                        Default: False (omits abstracts for more concise results)
     """
     # Call the InspireHEP API through our client
-    results = search_inspirehep(query, sort=sort, page=page, size=size)
+    results = search_inspirehep(query, sort=sort, page=page, size=size, include_abstract=include_abstract)
     
     # Return the results directly as a dictionary
     # FastMCP will handle the serialization
