@@ -1,5 +1,5 @@
 import json
-from inspirehep_client import search_inspirehep, get_bibtex, open_arxiv_in_browser
+from inspirehep_client import search_inspirehep, get_bibtex, open_arxiv_in_browser as client_open_arxiv
 from mcp.server.fastmcp import FastMCP
 from typing import Optional, Dict, Any
 
@@ -78,7 +78,7 @@ def open_arxiv_in_browser(url: str) -> dict:
     Only URLs from arxiv.org domain are allowed for security reasons.
     """
     # Call the client function to open the arXiv URL in browser
-    result = open_arxiv_in_browser(url)
+    result = client_open_arxiv(url)
     
     # Return the result
     return result
