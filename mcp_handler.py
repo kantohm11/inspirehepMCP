@@ -1,5 +1,5 @@
 import json
-from inspirehep_client import search_inspirehep, get_bibtex, open_arxiv_in_browser as client_open_arxiv
+from inspirehep_client import search_inspirehep, get_bibtex, open_arxiv_in_browser as client_open_arxiv, open_inspirehep_in_browser as client_open_inspirehep
 from mcp.server.fastmcp import FastMCP
 from typing import Optional, Dict, Any
 
@@ -79,6 +79,25 @@ def open_arxiv_in_browser(url: str) -> dict:
     """
     # Call the client function to open the arXiv URL in browser
     result = client_open_arxiv(url)
+    
+    # Return the result
+    return result
+
+@mcp.tool()
+def open_inspirehep_in_browser(record_id: str) -> dict:
+    """
+    Opens an INSPIRE-HEP record page in the user's default web browser given its record ID.
+    
+    Parameters:
+    - record_id: The INSPIRE-HEP record ID (control number)
+                Example: "451647" for Maldacena's AdS/CFT paper
+    
+    Returns a dictionary with the result of the operation.
+    This tool allows users to quickly view INSPIRE-HEP record pages directly in their browser,
+    providing access to the full record information, citations, references, and more.
+    """
+    # Call the client function to open the INSPIRE-HEP page in browser
+    result = client_open_inspirehep(record_id)
     
     # Return the result
     return result
