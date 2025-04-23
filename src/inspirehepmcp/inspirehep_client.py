@@ -32,6 +32,26 @@ def search_inspirehep(
             size = min(size, 1000)
             params['size'] = size
         
+        # Add fields parameter to request only the specific fields we need
+        # This optimizes the request by reducing data transfer
+        fields = [
+            "control_number",
+            "titles",
+            "authors.full_name",
+            "publication_info",
+            "citation_count",
+            "dois.value",
+            "arxiv_eprints",
+            "preprint_date"
+        ]
+        
+        # Include abstract field only if requested
+        if include_abstract:
+            fields.append("abstracts")
+            
+        # Join fields with commas and add to params
+        params['fields'] = ','.join(fields)
+        
         # Make the API request with params - requests library handles URL encoding properly
         response = requests.get(INSPIREHEP_API_URL, params=params)
         response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)

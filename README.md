@@ -43,6 +43,21 @@ uv pip install -e .
 inspirehepmcp
 ```
 
+### Using the MCP Inspector
+
+You can use the MCP Inspector to test and debug your InspireHEP MCP server implementation:
+
+```bash
+# Run the MCP Inspector to inspect and test your MCP server
+npx @modelcontextprotocol/inspector uvx --from /path/to/inspirehepMCP inspirehepmcp
+```
+
+The MCP Inspector provides a web interface to:
+- Explore available tools
+- Test tool invocations
+- View request/response payloads
+- Debug your MCP server implementation
+
 ### VS Code Integration with GitHub Copilot
 
 To use InspireHEP MCP with GitHub Copilot in VS Code, add the following configuration to your VS Code `settings.json` file:
