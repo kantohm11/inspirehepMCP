@@ -1,7 +1,7 @@
 import asyncio
 import sys
 import json
-from .mcp_handler import mcp
+from inspirehepmcp.mcp_handler import mcp
 
 def main():
     """Run the InspireHEP MCP server."""
