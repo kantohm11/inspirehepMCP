@@ -4,6 +4,7 @@ import webbrowser
 
 INSPIREHEP_API_URL = "https://inspirehep.net/api/literature"
 INSPIREHEP_WEB_URL = "https://inspirehep.net/literature"
+REQUEST_TIMEOUT = 10 # seconds
 
 def search_inspirehep(
     query: str, 
@@ -53,7 +54,7 @@ def search_inspirehep(
         params['fields'] = ','.join(fields)
         
         # Make the API request with params - requests library handles URL encoding properly
-        response = requests.get(INSPIREHEP_API_URL, params=params)
+        response = requests.get(INSPIREHEP_API_URL, params=params, timeout=REQUEST_TIMEOUT)
         response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
         
         # Parse the JSON response
@@ -65,6 +66,13 @@ def search_inspirehep(
         # Return the results
         return results
     
+    except requests.exceptions.Timeout as e:
+        # Handle timeout specifically
+        return {
+            "error": True,
+            "message": f"Request to InspireHEP timed out after {REQUEST_TIMEOUT} seconds: {str(e)}",
+            "status_code": 408  # Request Timeout
+        }
     except requests.exceptions.RequestException as e:
         # Return a structured error response
         return {
@@ -229,7 +237,7 @@ def get_bibtex(record_id: str) -> Dict[str, Any]:
         
         # Fetch BibTeX format for the specified record ID
         url = f"{INSPIREHEP_API_URL}/{record_id}?format=bibtex"
-        response = requests.get(url)
+        response = requests.get(url, timeout=REQUEST_TIMEOUT)
         response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
         
         # Parse the BibTeX response (text format)
@@ -241,6 +249,13 @@ def get_bibtex(record_id: str) -> Dict[str, Any]:
             "bibtex": bibtex_text
         }
     
+    except requests.exceptions.Timeout as e:
+        # Handle timeout specifically
+        return {
+            "error": True,
+            "message": f"Request to InspireHEP for BibTeX timed out after {REQUEST_TIMEOUT} seconds: {str(e)}",
+            "status_code": 408  # Request Timeout
+        }
     except requests.exceptions.RequestException as e:
         # Return a structured error response
         return {
