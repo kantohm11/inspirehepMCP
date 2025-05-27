@@ -15,9 +15,6 @@ InspireHEP MCP provides an API for searching, retrieving, and interacting with h
 
 ## Installation
 
-### Requirements
-
-- `pip` or `uv` package manager
 
 ## Usage
 
@@ -27,15 +24,26 @@ InspireHEP MCP provides an API for searching, retrieving, and interacting with h
 uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
 ```
 
+### Running in Docker
+
+```bash
+docker run --rm -i ghcr.io/astral-sh/uv:debian uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
+```
 
 ### Using the MCP Inspector
 
 You can use the MCP Inspector to test and debug your InspireHEP MCP server implementation:
 
 ```bash
-# Run the MCP Inspector to inspect and test your MCP server
+# Run the MCP Inspector to inspect and test your MCP server running in Docker
+npx @modelcontextprotocol/inspector docker run --rm -i ghcr.io/astral-sh/uv:debian uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
+```
+or the server running locally
+```bash
+# Run the MCP Inspector to inspect and test your MCP server running locally 
 npx @modelcontextprotocol/inspector uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
 ```
+
 
 The MCP Inspector provides a web interface to:
 - Explore available tools
