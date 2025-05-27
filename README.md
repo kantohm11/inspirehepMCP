@@ -17,31 +17,16 @@ InspireHEP MCP provides an API for searching, retrieving, and interacting with h
 
 ### Requirements
 
-- Python 3.13 or higher
 - `pip` or `uv` package manager
-
-### Install from source
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/inspirehepMCP.git
-cd inspirehepMCP
-
-# Install using pip
-pip install -e .
-
-# Or using uv
-uv pip install -e .
-```
 
 ## Usage
 
-### Start the MCP Server
+### Running from github repo
 
 ```bash
-# Run the MCP server
-inspirehepmcp
+uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
 ```
+
 
 ### Using the MCP Inspector
 
@@ -49,7 +34,7 @@ You can use the MCP Inspector to test and debug your InspireHEP MCP server imple
 
 ```bash
 # Run the MCP Inspector to inspect and test your MCP server
-npx @modelcontextprotocol/inspector uvx --from /path/to/inspirehepMCP inspirehepmcp
+npx @modelcontextprotocol/inspector uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
 ```
 
 The MCP Inspector provides a web interface to:
@@ -69,14 +54,13 @@ To use InspireHEP MCP with GitHub Copilot in VS Code, add the following configur
         "name": "InspireHEP",
         "type": "stdio",
         "command": "uvx",
-        "args": ["--from", "/path/to/inspirehepMCP", "inspirehepmcp"],
+        "args": ["--from", "git+https://github.com/kantohm11/inspirehepMCP", "inspirehepmcp"],
         "enabled": true
     }
   ]
 }
 ```
 
-Replace `/path/to/inspirehepMCP` with the absolute path to your InspireHEP MCP installation directory.
 
 With this configuration, GitHub Copilot will be able to access InspireHEP data through the MCP server, allowing you to search for physics papers, get citations, and more directly from within VS Code.
 
@@ -165,6 +149,3 @@ inspirehepmcp/
 - `mcp[cli]>=1.6.0`: Model Context Protocol framework
 - `requests>=2.32.3`: HTTP library for API requests
 
-## License
-
-[Your license here]
