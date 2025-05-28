@@ -20,14 +20,21 @@ InspireHEP MCP provides an API for searching, retrieving, and interacting with h
 
 ### Running from github repo
 
+E.g. with uv:
 ```bash
 uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
 ```
 
 ### Running in Docker
 
+Pull a docker image to work with if you don't have. 
+E.g. with uv:
 ```bash
-docker run --rm -i ghcr.io/astral-sh/uv:debian uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
+docker pull ghcr.io/astral-sh/uv:0.7.8-python3.13-bookworm
+```
+and then run the server:
+```bash
+docker run --rm -i ghcr.io/astral-sh/uv:0.7.8-python3.13-bookworm uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
 ```
 
 ### Using the MCP Inspector
@@ -36,7 +43,7 @@ You can use the MCP Inspector to test and debug your InspireHEP MCP server imple
 
 ```bash
 # Run the MCP Inspector to inspect and test your MCP server running in Docker
-npx @modelcontextprotocol/inspector docker run --rm -i ghcr.io/astral-sh/uv:debian uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
+npx @modelcontextprotocol/inspector docker run --rm -i ghcr.io/astral-sh/uv:0.7.8-python3.13-bookworm uvx --from git+https://github.com/kantohm11/inspirehepMCP inspirehepmcp
 ```
 or the server running locally
 ```bash
