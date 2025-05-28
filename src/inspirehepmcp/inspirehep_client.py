@@ -1,6 +1,5 @@
 import requests
 from typing import Optional, Dict, List, Any
-import webbrowser
 
 INSPIREHEP_API_URL = "https://inspirehep.net/api/literature"
 INSPIREHEP_WEB_URL = "https://inspirehep.net/literature"
@@ -111,12 +110,14 @@ def filter_response(response: Dict[str, Any], include_abstract: bool = False) ->
     
     # Process each hit/record
     for hit in response["hits"]["hits"]:
+        record_id = hit.get("control_number", hit.get("id", ""))
         filtered_hit = {
-            "id": hit.get("control_number", hit.get("id", "")),
+            "id": record_id,
             "title": _extract_title(hit),
             "authors": _extract_authors(hit),
             "publication_info": _extract_publication_info(hit),
             "citation_count": _extract_citation_count(hit),
+            "inspirehep_url": f"{INSPIREHEP_WEB_URL}/{record_id}" if record_id else ""
         }
         
         # Include abstract only if requested
@@ -262,104 +263,4 @@ def get_bibtex(record_id: str) -> Dict[str, Any]:
             "error": True,
             "message": f"Error fetching BibTeX from InspireHEP: {str(e)}",
             "status_code": getattr(e.response, 'status_code', None) if hasattr(e, 'response') else None
-        }
-
-def open_arxiv_in_browser(url: str) -> Dict[str, Any]:
-    """
-    Opens an arXiv URL in the default web browser.
-    
-    Args:
-        url: The arXiv URL to open in the browser
-        
-    Returns:
-        A dictionary with the result of the operation
-    """
-    try:
-        # Validate that this is an arXiv URL
-        valid_arxiv_domains = ('arxiv.org', 'www.arxiv.org')
-        
-        # Check if URL starts with http:// or https://
-        if not url.startswith(('http://', 'https://')):
-            return {
-                "error": True,
-                "message": "Invalid URL format. URL must start with http:// or https://"
-            }
-        
-        # Extract domain from URL
-        from urllib.parse import urlparse
-        parsed_url = urlparse(url)
-        domain = parsed_url.netloc
-        
-        # Check if domain is an arXiv domain
-        if domain not in valid_arxiv_domains:
-            return {
-                "error": True,
-                "message": f"Invalid URL. Only arXiv URLs (arxiv.org) are allowed, got: {domain}"
-            }
-        
-        # Try to open the URL in the default browser
-        success = webbrowser.open(url)
-        
-        if success:
-            return {
-                "success": True,
-                "message": f"Successfully opened arXiv URL {url} in default browser"
-            }
-        else:
-            return {
-                "error": True,
-                "message": f"Failed to open arXiv URL {url} in browser"
-            }
-    
-    except Exception as e:
-        return {
-            "error": True,
-            "message": f"Error opening arXiv URL in browser: {str(e)}"
-        }
-
-def open_inspirehep_in_browser(record_id: str) -> Dict[str, Any]:
-    """
-    Opens an INSPIRE-HEP record page in the default web browser given its record ID.
-    
-    Args:
-        record_id: The INSPIRE-HEP record ID (control number)
-        
-    Returns:
-        A dictionary with the result of the operation
-    """
-    try:
-        # Remove surrounding quotes if present
-        if (record_id.startswith('"') and record_id.endswith('"')) or \
-           (record_id.startswith("'") and record_id.endswith("'")):
-            record_id = record_id[1:-1]
-        
-        # Validate that the record_id is a number
-        if not record_id.isdigit():
-            return {
-                "error": True,
-                "message": f"Invalid record ID: '{record_id}'. The INSPIRE-HEP record ID must be a number."
-            }
-        
-        # Construct the URL for the INSPIRE-HEP record page
-        url = f"{INSPIREHEP_WEB_URL}/{record_id}"
-        
-        # Try to open the URL in the default browser
-        success = webbrowser.open(url)
-        
-        if success:
-            return {
-                "success": True,
-                "message": f"Successfully opened INSPIRE-HEP record {record_id} in default browser",
-                "url": url
-            }
-        else:
-            return {
-                "error": True,
-                "message": f"Failed to open INSPIRE-HEP record {record_id} in browser"
-            }
-    
-    except Exception as e:
-        return {
-            "error": True,
-            "message": f"Error opening INSPIRE-HEP record in browser: {str(e)}"
         }

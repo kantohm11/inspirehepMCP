@@ -10,7 +10,6 @@ InspireHEP MCP provides an API for searching, retrieving, and interacting with h
 
 - **Search InspireHEP**: Perform advanced searches for research papers with custom query syntax
 - **Get BibTeX Citations**: Retrieve BibTeX citations for specific papers
-- **Open Papers in Browser**: Open arXiv preprints or InspireHEP record pages directly in your browser
 - **MCP Integration**: Full integration with MCP for AI tool use
 
 ## Installation
@@ -118,31 +117,6 @@ Fetch BibTeX citation for an InspireHEP record by its ID.
 ```python
 get_bibtex_citation(record_id: str)
 ```
-
-**Parameters:**
-- `record_id`: The InspireHEP record ID (control number)
-
-#### open_arxiv_in_browser
-
-Opens an arXiv URL in the user's default web browser.
-
-```python
-open_arxiv_in_browser(url: str)
-```
-
-**Parameters:**
-- `url`: The arXiv URL to open. Must start with http:// or https:// and must be from arxiv.org
-
-#### open_inspirehep_in_browser
-
-Opens an INSPIRE-HEP record page in the default web browser.
-
-```python
-open_inspirehep_in_browser(record_id: str)
-```
-
-**Parameters:**
-- `record_id`: The InspireHEP record ID (control number)
 
 ## Development
 
